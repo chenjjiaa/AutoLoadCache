@@ -6,8 +6,7 @@ import com.jarvis.cache.serializer.kryo.KryoClassRegistration;
 import com.jarvis.cache.serializer.kryo.KryoContext;
 import com.jarvis.cache.to.CacheWrapper;
 import com.jarvis.lib.util.BeanUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -19,11 +18,9 @@ import java.util.Date;
  *
  * @author stevie.wong
  */
+@Slf4j
 public class KryoSerializer implements ISerializer<Object> {
-    
     private KryoContext kryoContext;
-    
-    private static final Logger logger = LoggerFactory.getLogger(KryoSerializer.class);
 
     public KryoSerializer() {
         this.kryoContext = DefaultKryoContext.newKryoContextFactory(kryo -> {

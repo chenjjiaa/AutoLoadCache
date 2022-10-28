@@ -1,5 +1,7 @@
 package com.jarvis.cache.serializer.protobuf;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 /**
  * @author zhengenshen@gmail.com
  */
+@Slf4j
 public class WriteByteBuf extends OutputStream {
 
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;

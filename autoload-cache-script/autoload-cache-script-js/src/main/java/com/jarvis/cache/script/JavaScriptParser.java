@@ -1,6 +1,7 @@
 package com.jarvis.cache.script;
 
 import com.jarvis.cache.CacheUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  *
  */
+@Slf4j
 public class JavaScriptParser extends AbstractScriptParser {
 
     private final ScriptEngineManager manager = new ScriptEngineManager();
@@ -34,7 +36,7 @@ public class JavaScriptParser extends AbstractScriptParser {
             addFunction(HASH, CacheUtil.class.getDeclaredMethod("getUniqueHashStr", new Class[]{Object.class}));
             addFunction(EMPTY, CacheUtil.class.getDeclaredMethod("isEmpty", new Class[]{Object.class}));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -45,7 +47,7 @@ public class JavaScriptParser extends AbstractScriptParser {
             String methodName = method.getName();
             funcs.append("function " + name + "(obj){return " + clsName + "." + methodName + "(obj);}");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

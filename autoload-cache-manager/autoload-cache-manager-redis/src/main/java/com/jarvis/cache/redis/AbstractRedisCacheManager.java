@@ -7,8 +7,8 @@ import com.jarvis.cache.serializer.ISerializer;
 import com.jarvis.cache.serializer.StringSerializer;
 import com.jarvis.cache.to.CacheKeyTO;
 import com.jarvis.cache.to.CacheWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -17,12 +17,12 @@ import java.util.*;
 /**
  *
  */
+@Getter
+@Slf4j
 public abstract class AbstractRedisCacheManager implements ICacheManager {
 
     public static final StringSerializer KEY_SERIALIZER = new StringSerializer();
 
-    private static final Logger log = LoggerFactory.getLogger(AbstractRedisCacheManager.class);
-    
     /**
      * Hash的缓存时长：等于0时永久缓存；大于0时，主要是为了防止一些已经不用的缓存占用内存;hashExpire小于0时，则使用@Cache中设置的expire值（默认值为-1）。
      */
@@ -66,7 +66,7 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
         try (IRedis redis = getRedis()) {
             redis.mset(params);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 
@@ -109,7 +109,7 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
             }
             res = (CacheWrapper<Object>) serializer.deserialize(val, returnType);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
         return res;
     }
@@ -122,7 +122,7 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
         try (IRedis redis = getRedis()) {
             return redis.mget(returnType, keys);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
         return null;
     }
@@ -159,7 +159,7 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
         try (IRedis redis = getRedis()) {
             redis.delete(keys);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 
@@ -172,9 +172,5 @@ public abstract class AbstractRedisCacheManager implements ICacheManager {
             return;
         }
         this.hashExpire = hashExpire;
-    }
-    
-    public ISerializer<Object> getSerializer() {
-        return serializer;
     }
 }

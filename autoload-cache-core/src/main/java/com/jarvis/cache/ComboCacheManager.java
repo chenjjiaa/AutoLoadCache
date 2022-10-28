@@ -6,8 +6,7 @@ import com.jarvis.cache.script.AbstractScriptParser;
 import com.jarvis.cache.to.CacheKeyTO;
 import com.jarvis.cache.to.CacheWrapper;
 import com.jarvis.cache.to.LocalCacheWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -19,6 +18,7 @@ import java.util.*;
  * @author gongqin
  * @version 2016年6月8日
  */
+@Slf4j
 public class ComboCacheManager implements ICacheManager {
 
     /**
@@ -35,8 +35,6 @@ public class ComboCacheManager implements ICacheManager {
      * 远程缓存实现
      */
     private ICacheManager remoteCache;
-    
-    private static final Logger log = LoggerFactory.getLogger(ComboCacheManager.class);
 
     public ComboCacheManager(ICacheManager localCache, ICacheManager remoteCache, AbstractScriptParser scriptParser) {
         this.localCache = localCache;

@@ -18,6 +18,8 @@ import com.jarvis.cache.serializer.ISerializer;
 import com.jarvis.cache.to.CacheWrapper;
 import com.jarvis.lib.util.BeanUtil;
 import com.jarvis.lib.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author zhengenshen@gmail.com
  */
+@Slf4j
 public class ProtoBufSerializer implements ISerializer<CacheWrapper<Object>> {
 
     private ConcurrentHashMap<Class, Lambda> lambdaMap = new ConcurrentHashMap<>();
@@ -66,10 +69,10 @@ public class ProtoBufSerializer implements ISerializer<CacheWrapper<Object>> {
             return null;
         }
         CacheWrapper<Object> cacheWrapper = new CacheWrapper<>();
-        ReadByteBuf byteBuf = new ReadByteBuf(bytes);
+        val byteBuf = new ReadByteBuf(bytes);
         cacheWrapper.setExpire(byteBuf.readInt());
         cacheWrapper.setLastLoadTime(byteBuf.readLong());
-        byte[] body = byteBuf.readableBytes();
+        val body = byteBuf.readableBytes();
         if (body == null || body.length == 0) {
             return cacheWrapper;
         }

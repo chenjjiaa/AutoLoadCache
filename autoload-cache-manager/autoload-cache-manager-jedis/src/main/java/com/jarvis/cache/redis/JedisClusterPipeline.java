@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Client;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisClusterInfoCache;
@@ -26,6 +28,8 @@ import redis.clients.jedis.util.SafeEncoder;
  *
  *
  */
+@Getter
+@Slf4j
 public class JedisClusterPipeline extends PipelineBase implements Closeable {
 
     private final JedisClusterInfoCache clusterInfoCache;
@@ -124,17 +128,5 @@ public class JedisClusterPipeline extends PipelineBase implements Closeable {
             jedisMap.put(pool, jedis);
         }
         return jedis.getClient();
-    }
-    
-    public JedisClusterInfoCache getClusterInfoCache() {
-        return clusterInfoCache;
-    }
-
-    public Queue<Client> getClients() {
-        return clients;
-    }
-
-    public Map<JedisPool, Jedis> getJedisMap() {
-        return jedisMap;
     }
 }
